@@ -196,6 +196,75 @@ class Dataset:
         X = np.random.rand(n_samples, n_features)
         y = np.random.randint(0, n_classes, n_samples)
         return cls(X, y, features=features, label=label)
+    
+    def dropna(self):
+        """
+        Removes samples with NaN values
+        """
+        nan_values = np.isnan(self.X).any(axis=1)
+        self.X = self.X[~nan_values]
+
+        if self.has_label():
+            self.y = self.y[~nan_values]
+
+        return self
+
+    def fillna(self, values: list[float]):
+        """
+        Replaces all null values with another value or the mean or median of the feature/variable
+        
+        Parameters:
+        -----------
+        value: list of floats (medians or means to use as replacements for NaN values)
+        
+        Return:
+
+        Modified Dataset Object
+        """
+        if not all(isinstance(value, (int, float)) for value in values):
+            raise ValueError("value could be only float")
+
+        num_columns = self.X.shape[1]
+
+        if len(values) < num_columns:
+            raise ValueError("values have at least as many values as columns in X")
+
+        if not np.array_equal(values, self.get_mean()) and not np.array_equal(values, self.get_median()):
+            raise ValueError("values are the array of means or medians of the variables")
+
+        for cols in range(num_columns):
+            col_values = self.X[:, cols]
+            nan_v = np.isnan(col_values)
+
+            if np.any(nan_v):
+                replace_value = values[cols]
+                col_values[nan_v] = replace_value
+                self.X[:, cols] = col_values
+
+        return self
+    
+    def remove_from_index(self, index: int):
+        """
+        Removes a sample by its index
+        
+        Parameters:
+        -----------
+        index: integer corresponding to the sample to remove
+        
+        Return:
+
+        Modified Dataset Object
+        """
+        if index < 0 or index >= len(self.X):
+            raise ValueError("Index is not valid, it is out of bounds")
+
+        self.X = np.delete(self.X, index, axis=0)
+
+        if self.has_label():
+            self.y = np.delete(self.y, index)
+
+        return self
+
 
 if __name__ == '__main__':
     X = np.array([[1, 2, 3], [4, 5, 6]])
