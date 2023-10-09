@@ -52,7 +52,7 @@ class SelectPercentile:
         Returns
         -------
         dataset: Dataset
-            The tranformed Dataset object
+            The transformed Dataset object
         """
         total_feat = len(dataset.features)   #total number of features
         wanted_feat = int(total_feat*self.percentile/100)   #number of features based on percentile
