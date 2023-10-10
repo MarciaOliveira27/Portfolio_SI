@@ -11,7 +11,7 @@ class PCA:
         PCA used to reduce the dimensions of the dataset.
 
         Parameters
-    ----------
+        ----------
         n_components: int
                     Number of components
         
