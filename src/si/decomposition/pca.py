@@ -43,12 +43,12 @@ class PCA:
         dataset = dataset.X - self.mean
 
         #calculate of SVD
-        U,S,V = np.linalg.svd(dataset, full_matrices=False) #U: unitary matrix of eigenvectors
+        self.U,self.S,self.V = np.linalg.svd(dataset, full_matrices=False) #U: unitary matrix of eigenvectors
                                                             #S: diagonal matrix of eigenvalues
                                                             #V: unitary matrix of right singular vectors
         
         #infer the Principal Components
-        self.components = V[:self.n_components]
+        self.components = self.V[:self.n_components]
 
         #infer the Explained Variance
         n_samples = dataset.shape[0]
@@ -75,9 +75,9 @@ class PCA:
 
         reduced_data = np.dot(dataset, v_matrix)
 
-        return Dataset(reduced_data, dataset.y, dataset.features, dataset.label)
+        return reduced_data
 
-    def fit_transform(self, dataset: Dataset) -> Dataset:
+    def fit_transform(self, dataset: Dataset) -> np.ndarray:
         """
         Calculates the mean, the principal components and the explained variance using SVD and 
         calculates the reduced dataset.
