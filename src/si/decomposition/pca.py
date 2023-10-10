@@ -13,7 +13,7 @@ class PCA:
         Parameters
         ----------
         n_components: int
-                    Number of components
+                Number of components
         
         Attributes
         ----------
