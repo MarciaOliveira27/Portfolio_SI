@@ -57,9 +57,9 @@ def stratified_train_test_split(dataset: Dataset, test_size: float = 0.2, random
 
     Returns
     -------
-    train: Dataset
+    train_data: Dataset
         The training dataset
-    test: Dataset
+    test_data: Dataset
         The testing dataset
     """
     
@@ -71,18 +71,19 @@ def stratified_train_test_split(dataset: Dataset, test_size: float = 0.2, random
     np.random.seed(random_state)
 
     for labels, counts in zip(unique_labels, counts_labels):
-        number_test = int(counts * test_size)                  #get number of samples in the test set
-        
-        idx_labels = np.where(dataset.y == labels)             #select indices for the current class
-        
-        np.random.shuffle(idx_labels)                          #perform a random shuffle
-
-        test_idx.extend(idx_labels[:number_test])              #add indices to the list test_idx
-
-        train_idx.extend(idx_labels[number_test:])             #add indices to the list train_idx
+        #get number of samples in the test set
+        number_test = int(counts * test_size)                  
+        #select indices for the current class
+        idx_labels = np.where(dataset.y == labels)[0]          
+        #perform a random shuffle
+        np.random.shuffle(idx_labels)                          
+        #add indices to the list test_idx
+        test_idx.extend(idx_labels[:number_test])              
+        #add indices to the list train_idx
+        train_idx.extend(idx_labels[number_test:])             
     
-
-    train_dataset = Dataset(dataset.X[train_idx], dataset.y[train_idx], features=dataset.features, label=dataset.label)
-    test_dataset = Dataset(dataset.X[test_idx], dataset.y[test_idx], features=dataset.features, label=dataset.label)
+    #create training and testing datasets
+    train_data = Dataset(dataset.X[train_idx], dataset.y[train_idx], features=dataset.features, label=dataset.label)
+    test_data = Dataset(dataset.X[test_idx], dataset.y[test_idx], features=dataset.features, label=dataset.label)
     
-    return train_dataset, test_dataset
+    return train_data, test_data
