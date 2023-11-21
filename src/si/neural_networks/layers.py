@@ -210,3 +210,101 @@ class DenseLayer(Layer):
             The shape of the output of the layer.
         """
         return (self.n_units,)
+
+class Dropout(Layer):
+    """
+    It is a regularization technique where a random set of neurons is 
+    temporarily ignored (dropped out) during training, helping prevent
+    overfitting by promoting robustness and generalization in the model.
+    
+    """
+    def __init__(self, probability: int):
+        """
+        Initialize the dropout layer.
+
+        Parameter
+        ----------
+        probability: int
+            The dropout rate, between 0 and 1.
+        """
+        super().__init__()
+        self.probability = probability
+
+        self.mask = None
+        self.input = None
+        self.output = None
+
+    def forward_propagation(self, input: np.ndarray, training: bool) -> np.ndarray:
+        """
+        Perform forward propagation on the given input, i.e., applies 
+        the mask to the input and scales it when in training mode, 
+        does nothing in inference mode, i.e., returns the received input.
+
+        Parameters
+        ----------
+        input: numpy.ndarray
+            The input array.
+        training: bool
+            Boolean of whether we are in training or inference mood.
+
+        Returns
+        -------
+        numpy.ndarray
+            The output of the layer.
+        """
+
+        if training is True:
+
+            scaling_factor = 1 / (1-self.probability)
+            self.mask = np.random.binomial(1, p=(1-self.probability), size=input.shape)
+            self.output = input * self.mask * scaling_factor
+            return self.output
+        
+        else: 
+
+            self.input = input 
+            return self.input
+
+    def backward_propagation(self, output_error: np.ndarray) -> np.ndarray:
+        """
+        Perform backward propagation on the given output error.
+
+        Parameter
+        ----------
+        output_error: numpy.ndarray
+            The output error of the layer.
+
+        Returns
+        -------
+        np.ndarray
+            The input error of the layer.
+        """
+
+        error_layer = output_error * self.mask
+        return error_layer
+    
+    def output_shape(self, input_shape: tuple) -> tuple:
+        """
+        Returns the shape of the input of the layer.
+
+        Returns
+        -------
+        tuple
+            The shape of the input of the layer.
+        """
+        return input_shape
+    
+    def parameters(self) : 
+        """
+        Returns the number of parameters of the layer.
+
+        Returns
+        -------
+        int
+            The number of parameters of the layer.
+        """
+        return 0
+    
+        
+        
+        
