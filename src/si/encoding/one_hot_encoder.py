@@ -67,7 +67,7 @@ class OneHotEncoder:
                 seq = seq + seq_padding
 
             #Encode the data to the one hot encoded matrices
-            enc_seq = np.zeros((self.max_length), len(self.alphabet))    #Matrix of shape max_length x alphabet_size
+            enc_seq = np.zeros((self.max_length, len(self.alphabet)))   #Matrix of shape max_length x alphabet_size
 
             for x, char in enumerate(seq):
                 if char in self.char_to_index:
