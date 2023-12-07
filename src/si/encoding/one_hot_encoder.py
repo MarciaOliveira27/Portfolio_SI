@@ -5,11 +5,11 @@ import numpy as np
 
 class OneHotEncoder:
 
-    def __init__(self, padder: int, max_length: int):
+    def __init__(self, padder: str, max_length: int = None):
         """
         Parameters
         ----------
-        padder: int
+        padder: str
             Character to perform padding with.
         max_length: int
             Maximum length of the sequences.
@@ -40,7 +40,7 @@ class OneHotEncoder:
         if self.max_length is None:
             self.max_length = max(len(seq) for seq in data)
 
-    def transform(self, data: List) -> List:
+    def transform(self, data: List) -> List[np.ndarray]:
         """
         Encodes the sequence to one hot encoding.
 
@@ -76,7 +76,7 @@ class OneHotEncoder:
         
         return enconded_seqs
 
-    def fit_transform(self, data: List) -> List:
+    def fit_transform(self, data: List) -> List[np.ndarray]:
         """
         Runs fit and then predict.
 
@@ -95,7 +95,7 @@ class OneHotEncoder:
         return self.transform(data)
         
 
-    def inverse_transform(self, encoded_sequences: List) -> List:
+    def inverse_transform(self, encoded_sequences: List) -> List[str]:
         """
         Converts one-hot-encoded sequences back to sequences.
 
