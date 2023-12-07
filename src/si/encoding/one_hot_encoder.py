@@ -109,8 +109,9 @@ class OneHotEncoder:
         decoded_seqs = []
 
         for enc_seq in encoded_sequences:
-            dec_seq = ''.join([self.index_to_char[index] for index in enc_seq.argmax(axis=1)])
+            indices = np.where(enc_seq != 0)[1]
+            dec_seq = ''.join([self.index_to_char[index] for index in indices])
             decoded_seqs.append(dec_seq)
-        
+
         return decoded_seqs
 
