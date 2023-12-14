@@ -9,7 +9,7 @@ from si.metrics.rmse import rmse
 
 class KNNRegressor:
     """
-    The k-Nearst Neighbors Regressor is suitable for regression problems. Therefore, it estimates 
+    The k-Nearest Neighbors Regressor is suitable for regression problems. Therefore, it estimates 
     the average value of the k most similar examples.
 
     Parameters
