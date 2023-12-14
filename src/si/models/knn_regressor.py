@@ -9,8 +9,7 @@ from si.metrics.rmse import rmse
 
 class KNNRegressor:
     """
-    KNN Classifier
-    The k-Nearst Neighbors Regressor However is suitable for regression problems. Therefore, it estimates 
+    The k-Nearst Neighbors Regressor is suitable for regression problems. Therefore, it estimates 
     the average value of the k most similar examples.
 
     Parameters
