@@ -7,7 +7,7 @@ from si.model_selection.cross_validation import k_fold_cross_validation
 def randomized_search_cv(model, dataset: Dataset, hyperparameter_grid: Dict[str, Tuple], scoring: Callable = None, 
                          cv: int = 5, n_iter: int = 10) -> Dict[str, Any]:
     """
-    Perform k-fold cross-validation on the given model and dataset.
+    Perform randomized search cross-validation on the given model and dataset.
 
     Parameters
     ----------
